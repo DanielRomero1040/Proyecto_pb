@@ -1,15 +1,28 @@
 [
   {
     "id": "1",
-    "carrito": [
+    "timeStamp": "",
+    "productos": [
       {
-        "title": "holaCarrito",
+        "title": "objeto1",
         "price": "1",
         "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
         "id": "1"
       },
       {
-        "title": "holaCarrito",
+        "title": "objeto1",
+        "price": "1",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+        "id": "1"
+      },
+      {
+        "title": "objeto1",
+        "price": "1",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+        "id": "1"
+      },
+      {
+        "title": "objeto2",
         "price": "1",
         "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
         "id": "2"
@@ -18,21 +31,56 @@
   },
   {
     "id": "2",
-    "carrito": [
+    "timeStamp": "",
+    "productos": [
       {
         "title": "holaCarrito2",
         "price": "1",
         "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
         "id": "2"
+      },
+      {
+        "title": "objeto1",
+        "price": "1",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+        "id": "1"
+      },
+      {
+        "title": "objeto1",
+        "price": "1",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+        "id": "1"
+      },
+      {
+        "title": "objeto1",
+        "price": "1",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+        "id": "1"
+      },
+      {
+        "title": "objeto1",
+        "price": "1",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+        "id": "1"
+      },
+      {
+        "title": "objeto2",
+        "price": "1",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+        "id": "2"
+      },
+      {
+        "title": "objeto2",
+        "price": "1",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+        "id": "2"
+      },
+      {
+        "title": "objeto2",
+        "price": "1",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+        "id": "2"
       }
     ]
-  },
-  {
-    "id": 3,
-    "carrito": []
-  },
-  {
-    "id": 4,
-    "carrito": []
   }
 ]

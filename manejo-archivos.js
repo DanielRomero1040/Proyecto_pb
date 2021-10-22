@@ -9,6 +9,14 @@ async function escribir(newData){
         console.log('error al escribir el documento', error)
     }
 }
+async function escribirCart(newData){                        
+    try {
+        const escritura = await fs.promises.writeFile('./carritos.txt',JSON.stringify(newData, null, 2));
+
+    } catch (error) {
+        console.log('error al escribir el documento', error)
+    }
+}
 
 
 class Contenedor{
@@ -51,19 +59,11 @@ class Contenedor{
                     newData.length? (newId = Number(newData[newData.length-1].id) + 1):(newId=1);
                     const objeto = {
                         id:newId,
-                        carrito:[]
+                        timeStamp: new Date(),
+                        productos:[]
                     } 
-                    newData.push(objeto);                    
-                    
-                    async function escribirCart(newData){
-                        
-                        try {
-                            const escritura = await fs.promises.writeFile('./carritos.txt',JSON.stringify(newData, null, 2));
-                            
-                        } catch (error) {
-                            console.log('error al escribir el documento', error)
-                        }
-                    }
+                    newData.push(objeto);  
+
                     escribirCart(newData);
 
                     return objeto
@@ -81,11 +81,17 @@ class Contenedor{
         return leer();
     }
 
-    saveProductInCart(idCarrito,idProducto){
+    saveProductInCart(idCarrito, idProducto){
         async function leer(){
             try{
-                this.getByIdCart(idCarrito);
-                console.log(this.getByIdCart(idCarrito))
+                const contenido = await fs.promises.readFile('./carritos.txt', 'utf-8');
+                    const newData = JSON.parse(contenido).map(el=>el);                           
+                    const item = newData.find(el=>el.id == idCarrito);
+                    const contenidoProducts = await fs.promises.readFile('./productos.txt', 'utf-8');
+                    const product = JSON.parse(contenidoProducts).find(el=>el.id == idProducto);
+                    item.productos.push(product);
+                    escribirCart(newData);              
+                    return item.productos;
 
             }catch(error){
                 console.log('error de lectura', error)
@@ -94,6 +100,41 @@ class Contenedor{
         return leer()
 
     };
+//----------- delete un carrito -------------------
+
+    deleteCartById(id){
+        async function leer(){
+            try {
+                const contenido = await fs.promises.readFile('./carritos.txt', 'utf-8');
+                    const newData = JSON.parse(contenido).map(el=>el);
+                    newData.splice(id-1,1);                  
+
+                    escribirCart(newData);
+                    
+            } catch (error) {
+                console.log('error de lectura', error)
+            }    
+        }
+        leer()
+    }
+//----------- delete un producto dentro de un carrito -------------------
+    deleteProductIntoCartById(idCarrito, idProducto){
+        async function leer(){
+            try{
+                const contenido = await fs.promises.readFile('./carritos.txt', 'utf-8'); 
+                    const newData = JSON.parse(contenido).map(el=>el);                          
+                    const item = newData.find(el=>el.id == idCarrito);
+                    const elementoBuscado = (element) => element.id == idProducto;
+                    let index = item.productos.findIndex(elementoBuscado);
+                    item.productos.splice(index,1);
+                    escribirCart(newData);
+
+            }catch(error){
+                console.log('error de lectura', error)
+            }
+        }
+        return leer()
+    }
 //----------- buscar carrito por id ---------------------
     getByIdCart(id){
         async function leer(){
