@@ -31,6 +31,7 @@ class Contenedor{
                     let newId ;
                     newData.length? (newId = Number(newData[newData.length-1].id) + 1):(newId=1)                    
                     objeto.id = `${newId}`;
+                    objeto.timeStamp = new Data();
                     newData.push(objeto);
                     
                     escribir(newData);
