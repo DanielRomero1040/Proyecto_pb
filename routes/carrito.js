@@ -36,14 +36,18 @@ router.post('/:id/productos/:id_prod', (req, res) => {
 });
 
 router.delete('/:id',(req,res)=>{
-    newContainer.deleteCartById(parseInt(req.params.id));
-    res.send(`carrito con id ${req.params.id} eliminado de la base de datos`)
+    newContainer.deleteCartById(parseInt(req.params.id)).then((data)=>{
+        console.log(data);
+        res.json(data)
+    });
     
 });
 
 router.delete('/:id/productos/:id_prod',(req,res)=>{
-    newContainer.deleteProductIntoCartById(req.params.id,req.params.id_prod)
-    res.send(`producto con id ${req.params.id_prod} eliminado de la base de datos`)
+    newContainer.deleteProductIntoCartById(req.params.id,req.params.id_prod).then((data)=>{
+        console.log(data);
+        res.json(data)
+    });
 })
 
 //----------------------------------------

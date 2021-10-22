@@ -31,7 +31,7 @@ class Contenedor{
                     let newId ;
                     newData.length? (newId = Number(newData[newData.length-1].id) + 1):(newId=1)                    
                     objeto.id = `${newId}`;
-                    objeto.timeStamp = new Data();
+                    objeto.timeStamp = new Date();
                     newData.push(objeto);
                     
                     escribir(newData);
@@ -41,7 +41,9 @@ class Contenedor{
                 console.log('se creará una archivo para este nuevo producto')
                 try {
                     objeto.id = `1`;
+                    objeto.timeStamp = new Date();
                     console.log('el nuevo ID es: ', 1 );
+
                     const escritura = await fs.promises.writeFile('./productos.txt',`[${JSON.stringify(objeto, null, 2)}]`);                
                 } catch (error) {
                     console.log('error al escribir el documento', error)
@@ -111,12 +113,12 @@ class Contenedor{
                     newData.splice(id-1,1);                  
 
                     escribirCart(newData);
-                    
+                    return newData;
             } catch (error) {
                 console.log('error de lectura', error)
             }    
         }
-        leer()
+        return leer()
     }
 //----------- delete un producto dentro de un carrito -------------------
     deleteProductIntoCartById(idCarrito, idProducto){
@@ -129,6 +131,7 @@ class Contenedor{
                     let index = item.productos.findIndex(elementoBuscado);
                     item.productos.splice(index,1);
                     escribirCart(newData);
+                    return newData;
 
             }catch(error){
                 console.log('error de lectura', error)
@@ -182,13 +185,19 @@ class Contenedor{
             try {
                 const contenido = await fs.promises.readFile('./productos.txt', 'utf-8');
                     const newData = JSON.parse(contenido).map(el=>el);
-                    newData.splice(id-1,1);                  
-                    escribir(newData);       
+
+                    const elementoBuscado = (element) => element.id == id;
+                    const index = newData.findIndex(elementoBuscado);
+                    newData.splice(index,1);                  
+                    escribir(newData);
+                    const itemDeleted = "elemento borrado"
+                    return itemDeleted;
             } catch (error) {
                 console.log('error de lectura', error)
             }    
         }
-        leer()
+        return leer()
+
     }
 
     deleteAll(){
@@ -211,11 +220,17 @@ class Contenedor{
             try {
                 const contenido = await fs.promises.readFile('./productos.txt', 'utf-8');
                     const newData = JSON.parse(contenido).map(el=>el);
-                    newData[objeto.id - 1].title = objeto.title;
-                    newData[objeto.id - 1].price = objeto.price;
-                    newData[objeto.id - 1].thumbnail = objeto.thumbnail;
+
+                    const elementoBuscado = (element) => element.id == objeto.id;
+                    const index = newData.findIndex(elementoBuscado);
+                    newData[index].title = objeto.title;
+                    newData[index].price = objeto.price;
+                    newData[index].thumbnail = objeto.thumbnail;
+                    newData[index].code = objeto.code;
+                    newData[index].stock = objeto.stock;
+                    newData[index].timeStamp = objeto.timeStamp;
                     escribir(newData);
-                    return newData[objeto.id - 1]       
+                    return newData[index]       
             } catch (error) {
                 console.log('error de lectura', error)
             } 

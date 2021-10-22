@@ -8,7 +8,7 @@ const { Router } = express;
 
 const router = new Router();
 
-const isAdmin = false;
+const isAdmin = true;
 
 
 //----------------------------------------
@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     const productos = newContainer.getAll();
     productos.then((items)=>{   
     res.json(items);
-})
+    })
 })
 
 router.get('/:id', (req, res) => {
@@ -38,26 +38,23 @@ router.get('/:id', (req, res) => {
 
 router.post('/save', (req, res) => {
     if(isAdmin){
-        let { title, price, thumbnail } = req.body
+        let { title, price, thumbnail, code, description, stock } = req.body
 
         const producto1 = {
             title,
             price,
-            thumbnail
+            thumbnail,
+            code,
+            description,
+            stock
         }
 
         newContainer.save(producto1).then((data) => {
-            let htmlText = ['<h1>Listado de productos</h1>'];
-
-
-            htmlText = [...htmlText, `<h2>${data.title}</h2>
-            <p>Tiene un costo de ${data.price} $</p>
-            <img src=${data.thumbnail} />
-            <p>El Id de tu producto es ${data.id}</p>
-            `]
-
-            res.sendFile("files/index.html", { root: "." });
-
+            console.log(data);
+            const productos = newContainer.getAll();
+            productos.then((items)=>{   
+            res.json(items);
+            })
         })
     }else{
         res.json({ error : -1, descripcion: `ruta 'api/productos/save' método 'post' no autorizada`});
@@ -66,26 +63,28 @@ router.post('/save', (req, res) => {
 
 router.put('/:id', (req, res) => {
     if(isAdmin){
-        let { title, price, thumbnail } = req.body
+        let { title, price, thumbnail, code, description, stock } = req.body
 
         const producto = {
             title,
             price,
             thumbnail,
-            id: req.params.id
+            code,
+            description,
+            stock,
+            id: req.params.id,
+            timeStamp: new Date()
         }
 
         const productoActualizado = newContainer.updateById(producto);
         productoActualizado.then(data => {
-            res.send(`
-            <h1> Este es el producto ${data.title} </h1>
-        
-            <h2>${data.title}</h2>
-            <p>Tiene un costo de ${data.price} $</p>
-            <img src=${data.thumbnail} />
-            <p>El Id de tu producto es ${data.id}</p>
-            
-            `)
+            console.log(data);
+            const producto = newContainer.getById(parseInt(req.params.id))
+            producto.then((item) => {
+                res.json(item)
+            }).catch((error) => {
+                res.json({ error: 'producto no encontrado' })
+            })           
 
         })
     }else{
@@ -95,8 +94,16 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     if(isAdmin){
-        const producto = newContainer.deleteById(parseInt(req.params.id))
-        res.send(`elemento con id ${req.params.id} eliminado de la base de datos`)
+        newContainer.deleteById(parseInt(req.params.id)).then((data)=>{
+            console.log(data)
+            const productos = newContainer.getAll();
+            productos.then((items)=>{   
+            res.json(items);
+            })
+
+        })
+
+        
     }else{
         res.json({ error : -1, descripcion: `ruta 'api/productos/save' método 'delete' no autorizada`});
     }
